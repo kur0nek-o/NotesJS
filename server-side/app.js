@@ -2,8 +2,14 @@ const express = require('express')
 const app = express()
 const port = 3000
 
+const bodyParser = require('body-parser')
+const { readFileSync, writeFileSync } = require('node:fs')
+
 const { generateID } = require('./src/createID')
-const note = require('./src/noteManagement')
+const note = require('./noteManagement')
+
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 app.get('/api/notes/:id', (req, res) => {
     const id = req.params.id
@@ -27,6 +33,22 @@ app.get('/api/notes', (req, res) => {
         status: true,
         data: note.all()
     })
+})
+
+app.post('/api/notes', (req, res) => {
+    const save = note.create(req.body)
+
+    if (save) {
+        res.status(201).json({
+            status: true,
+            message: 'Note berhasil disimpan'
+        })
+    } else {
+        res.status(500).json({
+            status: false,
+            message: 'Terjadi kesalahan server saat mencoba menyimpan data'
+        })
+    }
 })
 
 app.listen(port, () => {
