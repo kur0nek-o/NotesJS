@@ -51,6 +51,40 @@ app.post('/api/notes', (req, res) => {
     }
 })
 
+app.put('/api/notes/:id', (req, res) => {
+    const id = req.params.id
+    const update = note.update(req.body, id)
+
+    if (update) {
+        res.status(200).json({
+            status: true,
+            message: 'Note berhasil diperbaharui'
+        })
+    } else {
+        res.status(404).json({
+            status: false,
+            message: 'Data tidak ditemukan'
+        })
+    }
+})
+
+app.delete('/api/notes/:id', (req, res) => {
+    const id = req.params.id
+    const destroy = note.destroy(id)
+
+    if (destroy) {
+        res.status(200).json({
+            status: true,
+            message: 'Note berhasil dihapus'
+        })
+    } else {
+        res.status(404).json({
+            status: false,
+            message: 'Data tidak ditemukan'
+        })
+    }
+})
+
 app.listen(port, () => {
     console.log(`Server listening on port ${port}`)
 })

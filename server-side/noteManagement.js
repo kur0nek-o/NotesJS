@@ -31,3 +31,36 @@ exports.create = data => {
 
     return true
 }
+
+exports.update = (data, id) => {
+    const datas = JSON.parse(notes)
+    const index = datas.findIndex(val => val.id == id)
+
+    if (index != -1) {
+        const replacement = {
+            id,
+            note: data.note
+        }
+
+        datas[index] = replacement
+        writeFileSync(filePath, JSON.stringify(datas), 'utf-8')
+
+        return true
+    } else {
+        return false
+    }
+}
+
+exports.destroy = id => {
+    const datas = JSON.parse(notes)
+    const index = datas.findIndex(val => val.id == id)
+
+    if (index != -1) {
+        datas.splice(index, 1)
+        writeFileSync(filePath, JSON.stringify(datas), 'utf-8')
+
+        return true
+    } else {
+        return false
+    }
+}
