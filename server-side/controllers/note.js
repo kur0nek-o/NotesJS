@@ -1,14 +1,17 @@
+// Built-in modules
 const { readFileSync, writeFileSync } = require('fs')
+
+// User-define modules
 const { generateID } = require('../utils/createID')
 
 const filePath = './data/notes.json'
 let cachedNotes = []
 
-function cacheNotes() {
+const cacheNotes = () => {
     cachedNotes = JSON.parse(readFileSync(filePath, 'utf-8'))
 }
 
-function saveNotes() {
+const saveNotes = () => {
     writeFileSync(filePath, JSON.stringify(cachedNotes), 'utf-8')
 }
 
